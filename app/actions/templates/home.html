@@ -1,0 +1,22 @@
+{% extends 'admin/base_site.html' %} {% block title %}home admin{% endblock %}
+{% comment %}{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" href="{{ STATIC_URL }}path/css/style.css" />
+{% endblock %}{% endcomment %} {% comment %}{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+  &rsaquo;
+</div>
+{% endblock %}{% endcomment %} {% block content %}
+<div class="fieldsets">
+  <fieldset class="module">
+    <form action="send" method="post">
+      <p>
+        Message<br />
+        {% csrf_token %}
+        <textarea name="message" cols="40" rows="3"></textarea>
+        <input type="submit" value="Send" href="{% url 'home' %}" />
+      </p>
+    </form>
+  </fieldset>
+</div>
+{% endblock %}

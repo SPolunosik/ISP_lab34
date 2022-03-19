@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    env_file:
+      - ./.env.db
+
+  django_server:
+    env_file:
+      - ./.env.db
+    build: app/
+    restart: always
+    command: python app/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+
+  bot:
+    build: app/
+    env_file:
+      - ./.env
+    restart: always
+    command: python app/manage.py bot
+    volumes:
+      - .:/code
+    depends_on:
+      - django_server
+      - db
